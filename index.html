@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Video con lengua de señas</title>
+
+<script src="https://code.jquery.com/jquery-3.7.1.slim.min.js" integrity="sha256-kmHvs0B+OpCW5GVHUNjv9rOmY0IvSIRcf7zGUDTDQM8=" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/ableplayer/ableplayer@v5.0.0/build/ableplayer.min.css">
+<script src="https://cdn.jsdelivr.net/gh/ableplayer/ableplayer@v5.0.0/build/ableplayer.dist.js"></script>
+
+<style>
+	html, body { margin: 0; padding: 0; background: transparent; }
+	#video-wrapper { width: 100%; }
+</style>
+</head>
+<body>
+
+	<div id="video-wrapper">
+		<video id="video1" preload="auto" data-able-player playsinline>
+			<source type="video/mp4" src="media/main.mp4" data-sign-src="media/sign.mp4" />
+		</video>
+	</div>
+
+	<script>
+		// ponytail: Able Player has no public "ready" event, so poll briefly for the
+		// sign-language button to exist, then auto-open it (it's hidden behind a
+		// toggle by default). Upgrade path: swap for a real ready callback if
+		// Able Player ever exposes one.
+		$(function () {
+			var tries = 0;
+			var iv = setInterval(function () {
+				var p = window.AblePlayer && AblePlayer.getSingleInstance();
+				if (p && p.hasSignLanguage) {
+					clearInterval(iv);
+					if (p.prefSign !== 1) p.handleSignToggle();
+				} else if (++tries > 50) {
+					clearInterval(iv); // gave up after 5s, no sign video found
+				}
+			}, 100);
+		});
+	</script>
+
+</body>
+</html>
