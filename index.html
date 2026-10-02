@@ -22,7 +22,9 @@
 	.able-wrapper > .able { flex: 1; min-width: 0; }
 	.able-wrapper .able-vidcap-container,
 	.able-wrapper .able-media-container { min-width: 0; }
-	#sign-slot { width: 200px; flex-shrink: 0; }
+	/* !important: Able Player sets an inline width on this div itself (it
+	   assumes it's sizing a draggable popup), which would otherwise win. */
+	#sign-slot { width: 200px !important; flex-shrink: 0; }
 </style>
 </head>
 <body>
