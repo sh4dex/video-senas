@@ -11,23 +11,20 @@
 
 <style>
 	html, body { margin: 0; padding: 0; background: transparent; }
-	#player-row { display: flex; align-items: flex-start; gap: 8px; }
-	#video-wrapper { flex: 1; min-width: 0; }
-	/* ponytail: fixed width sign window via data-sign-div, simplest way to
-	   get it beside the video instead of Able Player's default floating
-	   popup (which overlaps the video and grows the iframe's height). */
+	/* ponytail: Able Player always moves the data-sign-div target into its own
+	   .able-wrapper as the 2nd child (after .able, the player itself), even
+	   with a custom div — so style those two directly instead of our own
+	   wrapper, which Able Player would otherwise ignore. */
+	.able-wrapper { display: flex; align-items: flex-start; gap: 8px; }
+	.able-wrapper > .able { flex: 1; min-width: 0; }
 	#sign-slot { width: 200px; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
-	<div id="player-row">
-		<div id="video-wrapper">
-			<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="daLI6kaXDJ8" data-youtube-sign-src="YONA79Seg58" data-sign-div="sign-slot" playsinline>
-			</video>
-		</div>
-		<div id="sign-slot"></div>
-	</div>
+	<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="daLI6kaXDJ8" data-youtube-sign-src="YONA79Seg58" data-sign-div="sign-slot" playsinline>
+	</video>
+	<div id="sign-slot"></div>
 
 </body>
 </html>
