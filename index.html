@@ -11,34 +11,23 @@
 
 <style>
 	html, body { margin: 0; padding: 0; background: transparent; }
-	#video-wrapper { width: 100%; }
+	#player-row { display: flex; align-items: flex-start; gap: 8px; }
+	#video-wrapper { flex: 1; min-width: 0; }
+	/* ponytail: fixed width sign window via data-sign-div, simplest way to
+	   get it beside the video instead of Able Player's default floating
+	   popup (which overlaps the video and grows the iframe's height). */
+	#sign-slot { width: 200px; flex-shrink: 0; }
 </style>
 </head>
 <body>
 
-	<div id="video-wrapper">
-		<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="daLI6kaXDJ8" data-youtube-sign-src="YONA79Seg58" playsinline>
-		</video>
+	<div id="player-row">
+		<div id="video-wrapper">
+			<video id="video1" data-able-player preload="auto" data-youtube-nocookie="true" data-youtube-id="daLI6kaXDJ8" data-youtube-sign-src="YONA79Seg58" data-sign-div="sign-slot" playsinline>
+			</video>
+		</div>
+		<div id="sign-slot"></div>
 	</div>
-
-	<script>
-		// ponytail: Able Player has no public "ready" event, so poll briefly for the
-		// sign-language button to exist, then auto-open it (it's hidden behind a
-		// toggle by default). Upgrade path: swap for a real ready callback if
-		// Able Player ever exposes one.
-		$(function () {
-			var tries = 0;
-			var iv = setInterval(function () {
-				var p = window.AblePlayer && AblePlayer.getSingleInstance();
-				if (p && p.hasSignLanguage) {
-					clearInterval(iv);
-					if (p.prefSign !== 1) p.handleSignToggle();
-				} else if (++tries > 50) {
-					clearInterval(iv); // gave up after 5s, no sign video found
-				}
-			}, 100);
-		});
-	</script>
 
 </body>
 </html>
