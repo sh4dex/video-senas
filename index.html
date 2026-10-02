@@ -15,7 +15,10 @@
 	   .able-wrapper as the 2nd child (after .able, the player itself), even
 	   with a custom div — so style those two directly instead of our own
 	   wrapper, which Able Player would otherwise ignore. */
-	.able-wrapper { display: flex; align-items: flex-start; gap: 8px; max-width: 100%; }
+	/* ponytail: caps the player at a size that fits the 1200x600 iframe this
+	   is embedded in (1920x1080 main video + controls was taller than 600px
+	   at full width). Bump this if the iframe size ever changes. */
+	.able-wrapper { display: flex; align-items: flex-start; gap: 8px; max-width: 1000px; margin: 0 auto; }
 	/* ponytail: min-width:0 at every level — flex/grid items default to a
 	   content-based minimum size, which otherwise blocks the video from
 	   ever shrinking to make room for the sign panel (it just overflows). */
