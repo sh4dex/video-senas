@@ -11,31 +11,22 @@
 
 <style>
 	html, body { margin: 0; padding: 0; background: transparent; }
-	/* ponytail: Able Player always moves the data-sign-div target into its own
-	   .able-wrapper as the 2nd child (after .able, the player itself), even
-	   with a custom div — so style those two directly instead of our own
-	   wrapper, which Able Player would otherwise ignore. */
-	/* ponytail: caps the player at a size that fits the 1200x600 iframe this
-	   is embedded in (1920x1080 main video + controls was taller than 600px
-	   at full width). Bump this if the iframe size ever changes. */
-	.able-wrapper { display: flex; align-items: flex-start; gap: 8px; max-width: 1000px; margin: 0 auto; }
-	/* ponytail: min-width:0 at every level — flex/grid items default to a
-	   content-based minimum size, which otherwise blocks the video from
-	   ever shrinking to make room for the sign panel (it just overflows). */
-	.able-wrapper > .able { flex: 1; min-width: 0; }
-	.able-wrapper .able-vidcap-container,
-	.able-wrapper .able-media-container { min-width: 0; }
-	/* !important: Able Player sets an inline width on this div itself (it
-	   assumes it's sizing a draggable popup), which would otherwise win. */
-	#sign-slot { width: 360px !important; flex-shrink: 0; }
+	/* ponytail: left-aligned (no margin:auto) and capped at 734px so Able
+	   Player's own auto-positioning (getOptimumPosition in buildplayer.js)
+	   finds room to place the sign window beside it, inside the 1200x600
+	   Moodle iframe, without stacking below (which would force scroll).
+	   734 wide -> ~413px video + ~90px controls, well under 600px tall;
+	   leaves 1200-734-5(gap) = 461px to the right, enough for the sign
+	   window's native 400px default width. Bump together if the iframe
+	   size or sign window width ever changes. */
+	.able-wrapper { max-width: 734px; }
 </style>
 </head>
 <body>
 
-	<video id="video1" data-able-player preload="auto" data-sign-div="sign-slot" playsinline>
+	<video id="video1" data-able-player preload="auto" playsinline>
 		<source type="video/mp4" src="media/main.mp4" data-sign-src="media/sign.mp4" />
 	</video>
-	<div id="sign-slot"></div>
 
 </body>
 </html>
